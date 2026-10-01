@@ -1,0 +1,3 @@
+# Optional: only for re-extracting the public reference GIF.
+# Normal play and all saved-solution verification use no Python dependency.
+Pillow>=10

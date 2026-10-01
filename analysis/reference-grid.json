@@ -1,0 +1,35 @@
+{
+  "author": "Toby Gottfried",
+  "page": "https://www.gottfriedville.net/blokus/18x20dtl.htm",
+  "image": "https://www.gottfriedville.net/blokus/18x20dtl.gif",
+  "sha256": "ecf2c3217b7865882f69c94d92b6e44d173b54c72651f6605da4a0cb12529ecd",
+  "panel": {
+    "firstCellCenter": [
+      135,
+      16
+    ],
+    "pitch": 11,
+    "width": 20,
+    "height": 18
+  },
+  "rows": [
+    "YBBYYYYYRRYYRRRRRGGR",
+    "YBYBBBRRYRYRYYGGGRGR",
+    "YBYYGBRYYRYRRYGBRRGR",
+    "BYGGGBRRYRYRYYGBBBRG",
+    "BYYGYYYYRYRYRRRRBRRG",
+    "BBYYGGGRRRYYYBBBRRGG",
+    "BYBGRRGGRGBYBBYYBGRG",
+    "YYBGGGRRGGBBYYBBBGRR",
+    "YBBB.GRRGGBBYYB.GGGR",
+    "BYYY.RGGRRYYBBY.RRRG",
+    "BBYRRRGGRRYYBBYYYRGG",
+    "YBYRGGRRGRYBYYBBYRGR",
+    "YYBBRRRGGGBBBYYYGGRR",
+    "YBBRBBBBGBGBGGGGYGGR",
+    "YBRRRYGGBGBGBBRYYYGR",
+    "BYBBRYGBBGBGGBRYGGRG",
+    "BYBYYYGGBGBGBBRRRGRG",
+    "BYYBBBBBGGBBGGGGGRRG"
+  ]
+}
