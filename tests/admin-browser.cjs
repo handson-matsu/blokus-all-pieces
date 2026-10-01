@@ -1,3 +1,4 @@
+const {installAccessProbe,assertAccess}=require('./access-probe.cjs');
 'use strict';
 const {chromium}=require('playwright');
 const assert=require('node:assert/strict');
@@ -10,7 +11,9 @@ const solution=require('../solution.js');
  try{
  for(const width of [390,1280]){
   const mobile=width<600,page=await browser.newPage({viewport:{width,height:900},isMobile:mobile,hasTouch:mobile});
+  const requests=[];page.on('request',r=>{if(/^https?:/.test(r.url()))requests.push(r.url());});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await installAccessProbe(page);
   await page.goto(pathToFileURL(path.resolve(__dirname,'../index.html')).href);
   const press=async selector=>page.locator(selector)[mobile?'tap':'click']();
   const taps=async n=>{for(let i=0;i<n;i++)await press('#game-title');};
@@ -36,7 +39,7 @@ const solution=require('../solution.js');
   await press('#close-answer');assert.deepEqual(await state(),before,'close restores entire play state and preview');
   await press('#show-answer');await taps(5);assert.ok(await page.locator('#admin-tools').isHidden());assert.deepEqual(await state(),before,'turning off also restores');
   await press('#undo');assert.equal(await page.evaluate(()=>placed.length),0,'undo history is intact');
-  await taps(5);await press('#show-answer');await page.reload();assert.ok(await page.locator('#admin-tools').isHidden());assert.equal(await page.locator('.occupied').count(),0);
+  await taps(5);await press('#show-answer');await assertAccess(page,requests,1);await page.reload();assert.ok(await page.locator('#admin-tools').isHidden());assert.equal(await page.locator('.occupied').count(),0);
   if(!mobile){
    // Replay all 84 placements through the normal selection/rotation/confirm path.
    const replay=await page.evaluate(steps=>{
@@ -60,7 +63,7 @@ const solution=require('../solution.js');
   await page.evaluate(steps=>{placed=steps;render();say('クリア！ 全84ピースを正しく置けました。');},solution);
   assert.ok(await page.locator('#clear').isVisible());const completed=await state();
   await taps(5);await press('#show-answer');assert.ok(await page.locator('#clear').isHidden());await press('#close-answer');assert.ok(await page.locator('#clear').isVisible());assert.deepEqual(await state(),completed);
-  assert.deepEqual(errors,[]);await page.close();
+  assert.deepEqual(errors,[]);await assertAccess(page,requests,2);await page.close();
  }
  console.log('PASS: desktop/mobile hidden mode, five taps/timeout, 356-cell exact answer, disabled operations, no false clear, full state/undo restoration, reload OFF');
  }finally{await browser.close();}
